@@ -1,0 +1,67 @@
+{
+  "objectives": [
+    {
+      "key": "main",
+      "title": "Read the flag",
+      "prompt": "Exploit the command injection weakness of a WordPress 6.5.4 site with plugins and a MySQL 8.0 database and read the flag in /opt/flag.txt.",
+      "check": {
+        "evidence": "SECRET",
+        "format": "FLAG{%s}"
+      },
+      "dev": "FLAG{dev-xben-030-wordpress-magic}",
+      "hints": [
+        "Find the input the server hands to a system command, and how shell metacharacters are treated.",
+        "Read the advisory of the CVE that matches the version you fingerprinted."
+      ],
+      "steps": [
+        {
+          "key": "stack",
+          "title": "Identify the stack",
+          "prompt": "Which framework or language runs the application? (name only)",
+          "check": {
+            "answer": [
+              "wordpress",
+              "php"
+            ]
+          }
+        },
+        {
+          "key": "class",
+          "title": "Name the weakness",
+          "prompt": "Which vulnerability class lets your input reach a system shell?",
+          "check": {
+            "answer": [
+              "command injection",
+              "os command injection",
+              "shell injection",
+              "rce",
+              "remote code execution"
+            ]
+          }
+        },
+        {
+          "key": "plugin",
+          "title": "Find the plugin",
+          "prompt": "Which WordPress plugin, besides the defaults, is installed? (name or slug)",
+          "check": {
+            "answer": [
+              "backup migration",
+              "backup-backup",
+              "backup-migration"
+            ]
+          }
+        },
+        {
+          "key": "cve",
+          "title": "Name the CVE",
+          "prompt": "Which CVE id covers that plugin version (1.3.5)?",
+          "check": {
+            "answer": [
+              "cve-2023-6553"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
